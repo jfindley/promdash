@@ -47,6 +47,10 @@ return function($scope) {
     return VariableInterpolator($scope.graph.title, $scope.vars);
   };
 
+  $scope.$on('removeExpression', function(ev, index) {
+    $scope.graph.expressions.splice(index, 1);
+  });
+
   $scope.addExpression = function() {
     var serverID = 0;
     var axisID = 0;
@@ -58,15 +62,17 @@ return function($scope) {
       axisID = prev.axisID;
     } else if ($scope.servers.length !== 0) {
       serverID = $scope.servers[0].id;
-      axisID = $scope.graph.axes[0].id;
+      axisID = ($scope.graph.axes || [{}])[0].id;
     }
 
     var exp = {
       id: id,
       serverID: serverID,
-      axisID: axisID,
       expression: ''
     };
+    if ($scope.graph.type === "graph") {
+      exp.axisID = axisID;
+    }
     $scope.graph.expressions.push(exp);
   };
 

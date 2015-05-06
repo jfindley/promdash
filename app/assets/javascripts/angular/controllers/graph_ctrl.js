@@ -33,10 +33,6 @@ angular.module("Prometheus.controllers").controller('GraphCtrl',
   $scope.requestsInFlight = 0;
   $scope.palettes = Palettes;
 
-  $scope.$on('removeExpression', function(ev, index) {
-    $scope.graph.expressions.splice(index, 1);
-  });
-
   $scope.addAxis = function() {
     var len = $scope.graph.axes.push(Prometheus.Graph.getAxisDefaults());
     $scope.graph.axes[len-1].id = len;
