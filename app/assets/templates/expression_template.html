@@ -1,6 +1,6 @@
 <div><b>Expression {{index + 1}}</b></div>
 <form class="form-inline expression_form">
-  <div ng-class="{'col-xs-12': type !== 'graph' }" class="form-group col-xs-4 pad-right expression_select">
+  <div ng-class="{'col-xs-8': type !== 'graph' }" class="form-group col-xs-4 pad-right expression_select">
     <select class="form-control"
       ng-model="expr.serverID"
       ng-options="s.id as s.name for s in servers"
@@ -15,7 +15,7 @@
       </select>
     </div>
   </div>
-  <div ng-if="type === 'graph'" class="form-group col-xs-4 expression_select">
+  <div class="form-group col-xs-4 expression_select">
     <select class="form-control"
       ng-model="expr.legendID"
       ng-options="s.id as s.name for s in legendFormatStrings">

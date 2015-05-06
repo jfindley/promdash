@@ -28,7 +28,10 @@ angular.module("Prometheus.services").factory('GraphRefresher',
             break;
           case 'vector':
             var d = data.value || data.Value;
-            d.forEach(function(s) { s.metric.serverName = server.name; });
+            d.forEach(function(s) {
+              s.metric.serverName = server.name;
+              s.serverID = server.id;
+            });
             deferred.resolve(d);
             break;
           default:

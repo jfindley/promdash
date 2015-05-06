@@ -39,6 +39,21 @@ return function($scope) {
     $scope.graph.showLegend = $scope.graph.showLegend || "sometimes";
   }
 
+  $scope.graph.legendFormatStrings = $scope.graph.legendFormatStrings || [
+    {id: 1, name: ""}
+  ];
+
+  $scope.addLegendString = function() {
+    var lsts = $scope.graph.legendFormatStrings;
+    var id = (new Date()).getTime().toString(16);
+    lsts.push({id: id, name: ""});
+  };
+
+  $scope.removeLegendString = function(index) {
+    $scope.graph.legendFormatStrings.splice(index, 1);
+  };
+
+
   $scope.$on('refreshDashboard', function(ev) {
     $scope.refreshGraph();
   });

@@ -292,8 +292,25 @@
                   }
                 }
               },
-              "legendFormatString": {
-                "type": "string"
+              "legendFormatStrings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": [
+                        // TODO: Check if we should standardize on either integers
+                        // or strings for legend IDs.
+                        "integer",
+                        "string"
+                      ]
+                    }
+                  }
+                }
               },
               "showLegend": {
                 "type": "string",

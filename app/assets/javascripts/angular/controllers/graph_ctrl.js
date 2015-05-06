@@ -19,9 +19,6 @@ angular.module("Prometheus.controllers").controller('GraphCtrl',
 
   // TODO: Set these on graph creation so we don't have to keep doing these
   // checks
-  $scope.graph.legendFormatStrings = $scope.graph.legendFormatStrings || [
-    {id: 1, name: ""}
-  ];
   $scope.graph.interpolationMethod = $scope.graph.interpolationMethod || "linear";
   $scope.graph.disabledSeries = $scope.graph.disabledSeries || {};
   $scope.graph.axes = $scope.graph.axes || [];
@@ -78,16 +75,6 @@ angular.module("Prometheus.controllers").controller('GraphCtrl',
   $scope.$on('changeExpression', function(ev) {
     $scope.refreshGraph();
   });
-
-  $scope.addLegendString = function() {
-    var lsts = $scope.graph.legendFormatStrings;
-    var id = (new Date()).getTime().toString(16);
-    lsts.push({id: id, name: ""});
-  };
-
-  $scope.removeLegendString = function(index) {
-    $scope.graph.legendFormatStrings.splice(index, 1);
-  };
 
   $scope.disableYMaxSibling = YAxisUtilities.disableYMaxSibling;
   $scope.checkValidNumber = YAxisUtilities.checkValidNumber;
