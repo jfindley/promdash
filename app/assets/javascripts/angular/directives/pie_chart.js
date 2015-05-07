@@ -26,9 +26,9 @@ angular.module("Prometheus.directives").directive('pieChart', ["$location", "Wid
           return;
         }
 
-        var serverIDToLegendID = {};
+        var expressionIDToLegendID = {};
         scope.graphSettings.expressions.forEach(function(expr) {
-          serverIDToLegendID[expr.serverID] = expr.legendID;
+          expressionIDToLegendID[expr.id] = expr.legendID;
         });
 
         legendIDToString = {};
@@ -40,7 +40,7 @@ angular.module("Prometheus.directives").directive('pieChart', ["$location", "Wid
           var m = e.Metric || e.metric;
           m.value = e.value = parseFloat(e.Value || e.value);
 
-          var legendID = serverIDToLegendID[e.serverID];
+          var legendID = expressionIDToLegendID[e.expressionID];
           var legendStr;
           if (legendID) {
             legendStr = legendIDToString[legendID];

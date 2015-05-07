@@ -30,7 +30,7 @@ angular.module("Prometheus.services").factory('GraphRefresher',
             var d = data.value || data.Value;
             d.forEach(function(s) {
               s.metric.serverName = server.name;
-              s.serverID = server.id;
+              s.expressionID = expressionID;
             });
             deferred.resolve(d);
             break;

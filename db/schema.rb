@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126150102) do
+ActiveRecord::Schema.define(version: 20150507090142) do
 
   create_table "dashboards", force: true do |t|
     t.string   "name"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20150126150102) do
     t.boolean  "permalink",      default: false
   end
 
-  add_index "dashboards", ["directory_id"], name: "index_dashboards_on_directory_id", using: :btree
+  add_index "dashboards", ["directory_id"], name: "index_dashboards_on_directory_id"
 
   create_table "directories", force: true do |t|
     t.string   "name"
@@ -47,6 +47,6 @@ ActiveRecord::Schema.define(version: 20150126150102) do
     t.integer  "dashboard_id"
   end
 
-  add_index "shortened_urls", ["checksum"], name: "index_shortened_urls_on_checksum", unique: true, using: :btree
+  add_index "shortened_urls", ["checksum"], name: "index_shortened_urls_on_checksum", unique: true
 
 end
