@@ -8,7 +8,11 @@ end
 
 def open_tab tab_name
   find(".widget_title").hover
-  find("[tooltip='#{tab_name}']").click
+  click_tooltip tab_name
+end
+
+def click_tooltip tooltip
+  page.execute_script("$(\"[tooltip='#{tooltip}']\").click()")
 end
 
 def model_element model
@@ -19,4 +23,8 @@ def within_graph
   within '.graph_chart' do
     yield
   end
+end
+
+def open_global_config
+  find("[title='Dashboard Settings']").click
 end
