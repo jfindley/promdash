@@ -33,15 +33,15 @@ angular.module("Prometheus.services").factory('RickshawDataTransformer', [functi
         name: name,
         // uniqName is added to be kept as a unique, unmodified identifier for a series.
         uniqName: name,
-      axisID: axisIDByExprID[data.exp_id],
-      exp_id: data.exp_id,
-      labels: ts.Metric || ts.metric,
-      data: (ts.Values || ts.values).map(function(value) {
-        return {
-          x: value.Timestamp || value[0],
-          y: parseValue(value.Value || value[1])
-        };
-      })
+        axisID: axisIDByExprID[data.exp_id],
+        exp_id: data.exp_id,
+        labels: ts.Metric || ts.metric,
+        data: (ts.Values || ts.values).map(function(value) {
+          return {
+            x: value.Timestamp || value[0],
+            y: parseValue(value.Value || value[1])
+          };
+        })
       };
     }));
 

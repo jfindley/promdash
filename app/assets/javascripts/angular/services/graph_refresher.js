@@ -28,17 +28,17 @@ angular.module("Prometheus.services").factory('GraphRefresher',
           switch(data.Type || data.type) {
             case 'error':
               var errMsg = "Expression " + (idx + 1) + ": " + (data.Value || data.value);
-            $scope.errorMessages.push(errMsg);
-            break;
+              $scope.errorMessages.push(errMsg);
+              break;
             case 'matrix':
               deferred.resolve({
-              'exp_id': expressionID,
-              'data': data
-            });
-            break;
+                'exp_id': expressionID,
+                'data': data
+              });
+              break;
             default:
               var errMsg = 'Expression ' + (idx + 1) + ': Result type "' + (data.Type || data.type) + '" cannot be graphed."';
-            $scope.errorMessages.push(errMsg);
+              $scope.errorMessages.push(errMsg);
           }
         }, function(data, status, b) {
           var errMsg = "Expression " + (idx + 1) + ": Server returned status " + status + ".";
