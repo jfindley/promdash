@@ -4,6 +4,7 @@ angular.module("Prometheus.directives").directive('graphChart', [
     "WidgetHeightCalculator",
     "VariableInterpolator",
     "RickshawDataTransformer",
+    "GraphiteDataTransformer",
     "YAxisUtilities",
     "HTMLEscaper",
     function(
@@ -12,6 +13,7 @@ angular.module("Prometheus.directives").directive('graphChart', [
       WidgetHeightCalculator,
       VariableInterpolator,
       RickshawDataTransformer,
+      GraphiteDataTransformer,
       YAxisUtilities,
       HTMLEscaper) {
   return {
@@ -82,7 +84,18 @@ angular.module("Prometheus.directives").directive('graphChart', [
           axisIDByExprID[expr.id] = expr.axisID;
         });
 
-        var series = RickshawDataTransformer(graphData, axisIDByExprID);
+        var series = graphData.map(function(d) {
+          if (d.data.type) { // from Prometheus
+            return RickshawDataTransformer(d, axisIDByExprID);
+          }
+          s = GraphiteDataTransformer(d, axisIDByExprID);
+          s.graphite = true;
+          return s;
+        });
+
+        // Flatten returned data.
+        series = $.map(series, function(n) { return n; });
+        series = new Rickshaw.Series(series);
 
         var yMinForGraph;
         var hasLog;
@@ -206,9 +219,23 @@ angular.module("Prometheus.directives").directive('graphChart', [
           }
         });
 
+        var graphiteSeries = [];
+        var prometheusSeries = [];
+        series.forEach(function(s) {
+          if (s.graphite) {
+            graphiteSeries.push(s);
+            return;
+          }
+          prometheusSeries.push(s);
+        });
+
         // Insert (x, null) pair at any discontinuity in the data.
         // Rickshaw.Series.zeroFill breaks logarithmic graphs.
-        Rickshaw.Series.fill(series, null);
+        // Graphite series typically don't have enough data, and null
+        // filling them ends up hiding the timeseries.
+        Rickshaw.Series.fill(prometheusSeries, null);
+
+        series = graphiteSeries.concat(prometheusSeries);
 
         // If all series are removed from a certain axis but a scale has been
         // assigned to that axis, it will render with the wrong range.

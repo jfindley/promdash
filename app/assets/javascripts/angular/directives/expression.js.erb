@@ -35,7 +35,7 @@ angular.module("Prometheus.directives").directive('expression', ["$timeout", "Me
 
       scope.updateMetricNames = function() {
         var server = scope.serversById[scope.expr.serverID];
-        if (server === undefined) {
+        if (server === undefined || server.kind === "graphite") {
           scope.metricNames = [];
           return;
         }
