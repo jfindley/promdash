@@ -33,6 +33,7 @@ angular.module("Prometheus.services").factory('RickshawDataTransformer', [functi
         name: name,
         // uniqName is added to be kept as a unique, unmodified identifier for a series.
         uniqName: name,
+        type: data.type,
         axisID: axisIDByExprID[data.exp_id],
         exp_id: data.exp_id,
         labels: ts.Metric || ts.metric,

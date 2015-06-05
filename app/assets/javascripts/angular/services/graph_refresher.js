@@ -32,8 +32,9 @@ angular.module("Prometheus.services").factory('GraphRefresher',
               break;
             case 'matrix':
               deferred.resolve({
-                'exp_id': expressionID,
-                'data': data
+                exp_id: expressionID,
+                type: server.kind,
+                data: data
               });
               break;
             default:
@@ -58,8 +59,9 @@ angular.module("Prometheus.services").factory('GraphRefresher',
         }).then(function(payload, status) {
           deferred.resolve(payload.data.map(function (d) {
             return {
-              'exp_id': expressionID,
-              'data': d
+              exp_id: expressionID,
+              type: server.kind,
+              data: d
             };
           }));
         });

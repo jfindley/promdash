@@ -5,6 +5,7 @@ angular.module("Prometheus.services").factory('GraphiteDataTransformer', [functi
       name: name,
       // uniqName is added to be kept as a unique, unmodified identifier for a series.
       uniqName: name,
+      type: ts.type,
       axisID: axisIDByExprID[ts.exp_id],
       exp_id: ts.exp_id,
       labels: {target:ts.data.target},

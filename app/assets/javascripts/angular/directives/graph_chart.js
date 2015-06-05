@@ -85,12 +85,10 @@ angular.module("Prometheus.directives").directive('graphChart', [
         });
 
         var series = graphData.map(function(d) {
-          if (d.data.type) { // from Prometheus
+          if (d.type === "prometheus") {
             return RickshawDataTransformer(d, axisIDByExprID);
           }
-          s = GraphiteDataTransformer(d, axisIDByExprID);
-          s.graphite = true;
-          return s;
+          return GraphiteDataTransformer(d, axisIDByExprID);
         });
 
         // Flatten returned data.
@@ -219,23 +217,12 @@ angular.module("Prometheus.directives").directive('graphChart', [
           }
         });
 
-        var graphiteSeries = [];
-        var prometheusSeries = [];
-        series.forEach(function(s) {
-          if (s.graphite) {
-            graphiteSeries.push(s);
-            return;
-          }
-          prometheusSeries.push(s);
-        });
-
         // Insert (x, null) pair at any discontinuity in the data.
         // Rickshaw.Series.zeroFill breaks logarithmic graphs.
         // Graphite series typically don't have enough data, and null
         // filling them ends up hiding the timeseries.
-        Rickshaw.Series.fill(prometheusSeries, null);
-
-        series = graphiteSeries.concat(prometheusSeries);
+        p = series.filter(function(s) { return s.type === "prometheus"; });
+        Rickshaw.Series.fill(p, null);
 
         // If all series are removed from a certain axis but a scale has been
         // assigned to that axis, it will render with the wrong range.
