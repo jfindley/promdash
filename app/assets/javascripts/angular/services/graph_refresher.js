@@ -69,18 +69,16 @@ angular.module("Prometheus.services").factory('GraphRefresher',
 
     return function(endTime, range, step) {
       var deferred = $q.defer();
-      var promises = [];
       $scope.errorMessages = [];
-      for (var i = 0; i < $scope.graph.expressions.length; i++) {
-        var exp = $scope.graph.expressions[i];
+      var promises = $scope.graph.expressions.map(function(exp, i){
         var server = $scope.serversById[exp.serverID];
         if (server === undefined || !exp.expression) {
-          continue;
+          return;
         }
         var expression = VariableInterpolator(exp.expression, $scope.vars);
         $scope.requestsInFlight = true;
-        promises[i] = loadGraphData[server.kind](i, expression, server, exp.id, endTime, range, step);
-      }
+        return loadGraphData[server.kind](i, expression, server, exp.id, endTime, range, step);
+      });
       $q.all(promises).then(function(data) {
         $scope.requestsInFlight = false;
         deferred.resolve($.map(data, function(n) { return n; }));
